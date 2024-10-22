@@ -47,7 +47,9 @@ app.use("/api/search", searchRoutes);
 app.use("/api", subscriberRoutes); // Abone routes'u
 
 // Serve static files
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
+app.use("/uploads", express.static("uploads"));
 
 // Invalid path and error handling
 app.use(invalidPathHandler);
