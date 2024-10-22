@@ -27,6 +27,7 @@ app.use(express.json());
 
 // CORS options
 const corsOptions = {
+  origin: "*",
   exposedHeaders: "*",
 };
 
