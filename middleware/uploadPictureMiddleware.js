@@ -28,41 +28,27 @@
 
 ////////////////////////////////////////////////////////
 
+const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const multer = require("multer");
 
 // Cloudinary yapılandırması
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, // Cloudinary cloud name
-  api_key: process.env.CLOUDINARY_API_KEY, // Cloudinary API key
-  api_secret: process.env.CLOUDINARY_API_SECRET, // Cloudinary API secret
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Cloudinary storage yapılandırması
+// Cloudinary storage ayarları
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "blog-app", // Cloudinary'de kaydedilecek klasör
-    format: async (req, file) => "png", // Dosya formatı (isteğe bağlı)
-    public_id: (req, file) => `${Date.now()}-${file.originalname}`, // Dosya ismi
+    folder: "blog-app", // Cloudinary'deki klasör adı
+    allowed_formats: ["jpg", "jpeg", "png"],
   },
 });
 
-// Multer ile Cloudinary storage kullanımı
-const uploadPicture = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1 * 1000000, // Maksimum dosya boyutu 1MB
-  },
-  fileFilter: function (req, file, cb) {
-    let ext = file.mimetype;
-    if (ext !== "image/png" && ext !== "image/jpg" && ext !== "image/jpeg") {
-      return cb(new Error("Only images are allowed"));
-    }
-    cb(null, true);
-  },
-});
+// multer'ı CloudinaryStorage ile kullan
+const uploadPicture = multer({ storage: storage });
 
-// CommonJS modül sistemi için export
 module.exports = { uploadPicture };
