@@ -8,7 +8,7 @@ const PostSchema = new Schema(
     caption: { type: String, required: true }, // Alt başlık
     slug: { type: String, required: true, unique: true }, // URL dostu başlık
     body: { type: Object, required: true }, // Gönderinin içeriği
-    photo: { type: String, required: false }, // Gönderinin görseli
+    photo: { type: Schema.Types.Mixed, required: false }, // Gönderinin görseli (dinamik URL için)
     user: { type: Schema.Types.ObjectId, ref: "User" }, // Gönderiyi yapan kullanıcı
     tags: { type: [String] }, // Gönderi etiketleri
     categories: [{ type: Schema.Types.ObjectId, ref: "PostCategories" }], // Kategori referansları
